@@ -3,13 +3,14 @@ import "./App.css";
 import axiosClient from "./services/axiosClient";
 import LoginForm from "./components/LoginForm";
 import Blogs from "./components/Blogs";
-import NewBlog from "./components/NewBlog";
+import ErrorNotification from "./components/ErrorNotification";
 
 function App() {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -27,6 +28,10 @@ function App() {
       setUsername("");
       setPassword("");
     } catch (error) {
+      setErrorMessage("wrong username or password");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
       console.log(error);
     }
   };
@@ -49,6 +54,7 @@ function App() {
 
   return (
     <>
+      <ErrorNotification message={errorMessage} />
       {user === null ? (
         <LoginForm
           handleLogin={handleLogin}
@@ -64,6 +70,7 @@ function App() {
             user={user}
             setUser={setUser}
             setBlogs={setBlogs}
+            setErrorMessage={setErrorMessage}
           />
         </div>
       )}

@@ -2,8 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axiosClient from "../services/axiosClient";
 
-
-export default function NewBlog({ user, setBlogs, blogs }) {
+export default function NewBlog({ user, setBlogs, blogs, setErrorMessage }) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -18,6 +17,10 @@ export default function NewBlog({ user, setBlogs, blogs }) {
           url: url,
         };
         await axiosClient.create(blog);
+        setErrorMessage(`${title}! by ${author} added`);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 3000);
         setTitle("");
         setAuthor("");
         setUrl("");
