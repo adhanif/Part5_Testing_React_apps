@@ -3,7 +3,7 @@ const baseUrl = (import.meta.env.VITE_BE_URL || "") + "/api";
 
 let token = null;
 const setToken = (newToken) => {
-  token = `Bearer ${newToken}`;
+  token = `bearer ${newToken}`;
 };
 
 const getAll = () => {
@@ -13,9 +13,10 @@ const getAll = () => {
 
 const create = async (newObj) => {
   const config = {
-    headers: { Authorization: token },
+    headers: { authorization: token },
   };
-  const response = await axios.post(baseUrl, newObj, config);
+
+  const response = await axios.post(`${baseUrl}/blogs`, newObj, config);
   return response.data;
 };
 
@@ -24,4 +25,4 @@ const login = async (credentials) => {
   return response.data;
 };
 
-export default { getAll, login, setToken };
+export default { getAll, login, setToken, create };
