@@ -12,7 +12,7 @@ function App() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    console.log(username, password);
+
     try {
       const user = await axiosClient.login({
         username,

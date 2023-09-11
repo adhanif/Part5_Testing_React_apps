@@ -7,7 +7,6 @@ export default function Blogs({ blogs, user }) {
       <h2>blogs</h2>
       <p>{user.name} is logged in</p>
       {user.blogs.length != 0 ? (
-        user.blogs &&
         user.blogs.map((blog) => (
           <div key={blog.id}>
             {blog.title} {blog.author}
