@@ -18,7 +18,9 @@ function App() {
         username,
         password,
       });
+      axiosClient.setToken(user.token);
       // console.log(user);
+      window.localStorage.setItem("loggedBlogUser", JSON.stringify(user));
       setUser(user);
       setUsername("");
       setPassword("");
@@ -29,6 +31,15 @@ function App() {
 
   useEffect(() => {
     axiosClient.getAll().then((blogs) => setBlogs(blogs));
+  }, []);
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedBlogUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      axiosClient.setToken(user.token);
+    }
   }, []);
 
   return (
@@ -43,7 +54,7 @@ function App() {
         />
       ) : (
         <div className="container">
-          <Blogs blogs={blogs} user={user} />
+          <Blogs blogs={blogs} user={user} setUser={setUser} />
         </div>
       )}
     </>
