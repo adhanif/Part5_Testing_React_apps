@@ -1,7 +1,13 @@
 import React from "react";
 import NewBlog from "../components/NewBlog";
 
-export default function Blogs({ blogs, user, setUser, setBlogs }) {
+export default function Blogs({
+  blogs,
+  user,
+  setUser,
+  setBlogs,
+  setErrorMessage,
+}) {
   const handleClick = () => {
     window.localStorage.clear();
     setUser(null);
@@ -18,7 +24,12 @@ export default function Blogs({ blogs, user, setUser, setBlogs }) {
         <button onClick={handleClick}>logout</button>
       </div>
       <div style={{ marginTop: "30px" }}>
-        <NewBlog user={user} blogs={blogs} setBlogs={setBlogs} />
+        <NewBlog
+          user={user}
+          blogs={blogs}
+          setBlogs={setBlogs}
+          setErrorMessage={setErrorMessage}
+        />
       </div>
       <div style={{ marginTop: "10px" }}>
         {userBlogs.length != 0 ? (
