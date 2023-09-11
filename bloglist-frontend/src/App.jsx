@@ -3,6 +3,7 @@ import "./App.css";
 import axiosClient from "./services/axiosClient";
 import LoginForm from "./components/LoginForm";
 import Blogs from "./components/Blogs";
+import NewBlog from "./components/NewBlog";
 
 function App() {
   const [blogs, setBlogs] = useState([]);
@@ -21,6 +22,7 @@ function App() {
       axiosClient.setToken(user.token);
       // console.log(user);
       window.localStorage.setItem("loggedBlogUser", JSON.stringify(user));
+
       setUser(user);
       setUsername("");
       setPassword("");
@@ -30,13 +32,16 @@ function App() {
   };
 
   useEffect(() => {
-    axiosClient.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+    axiosClient.getAll().then((blogs) => {
+      setBlogs(blogs);
+    });
+  }, [blogs]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
+      // console.log()
       setUser(user);
       axiosClient.setToken(user.token);
     }
@@ -54,7 +59,12 @@ function App() {
         />
       ) : (
         <div className="container">
-          <Blogs blogs={blogs} user={user} setUser={setUser} />
+          <Blogs
+            blogs={blogs}
+            user={user}
+            setUser={setUser}
+            setBlogs={setBlogs}
+          />
         </div>
       )}
     </>
