@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NewBlog from "../components/NewBlog";
 
 export default function Blogs({
@@ -8,9 +8,22 @@ export default function Blogs({
   setBlogs,
   setErrorMessage,
 }) {
+  const [visible, setVisible] = useState(false);
+
+  const showForm = { display: visible ? "" : "none" };
+  const hiddenButton = { display: visible ? "none" : "" };
+
   const handleClick = () => {
     window.localStorage.clear();
     setUser(null);
+  };
+
+  const handleVisible = () => {
+    setVisible(true);
+  };
+
+  const handleHidden = () => {
+    setVisible(false);
   };
 
   const userBlogs = blogs.filter((blog) => blog.user.id === user.id);
@@ -24,12 +37,20 @@ export default function Blogs({
         <button onClick={handleClick}>logout</button>
       </div>
       <div style={{ marginTop: "30px" }}>
-        <NewBlog
-          user={user}
-          blogs={blogs}
-          setBlogs={setBlogs}
-          setErrorMessage={setErrorMessage}
-        />
+        <button onClick={handleVisible} style={hiddenButton}>
+          new note
+        </button>
+
+        <div style={showForm}>
+          <NewBlog
+            user={user}
+            blogs={blogs}
+            setBlogs={setBlogs}
+            setErrorMessage={setErrorMessage}
+            setVisible={setVisible}
+          />
+          <button onClick={handleHidden}>cancel</button>
+        </div>
       </div>
       <div style={{ marginTop: "10px" }}>
         {userBlogs.length != 0 ? (
