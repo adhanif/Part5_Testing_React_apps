@@ -11,7 +11,7 @@ const UserBlog = ({ blog }) => {
     borderWidth: 1,
     marginBottom: 5,
   };
-  // console.log(blog);
+
   const handleClick = (e) => {
     setShow(!show);
   };
