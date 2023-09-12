@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import NewBlog from "../components/NewBlog";
 import Togglable from "./Togglable";
+import UserBlog from "./UserBlog";
 
 export default function Blogs({
   blogs,
@@ -41,7 +42,8 @@ export default function Blogs({
         {userBlogs.length != 0 ? (
           userBlogs.map((blog) => (
             <div key={blog.id}>
-              {blog.title} {blog.author}
+              <UserBlog blog={blog} />
+              {/* {blog.title} {blog.author} */}
             </div>
           ))
         ) : (
