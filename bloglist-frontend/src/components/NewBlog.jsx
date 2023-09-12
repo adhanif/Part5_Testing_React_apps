@@ -2,13 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axiosClient from "../services/axiosClient";
 
-export default function NewBlog({
-  user,
-  setBlogs,
-  blogs,
-  setErrorMessage,
-  setVisible,
-}) {
+export default function NewBlog({ user, setErrorMessage, blogFormRef }) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -23,7 +17,7 @@ export default function NewBlog({
           url: url,
         };
         await axiosClient.create(blog);
-        setVisible(false);
+        blogFormRef.current.handleVisiblity();
         setErrorMessage(`${title}! by ${author} added`);
         setTimeout(() => {
           setErrorMessage(null);

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import NewBlog from "../components/NewBlog";
+import Togglable from "./Togglable";
 
 export default function Blogs({
   blogs,
@@ -8,22 +9,11 @@ export default function Blogs({
   setBlogs,
   setErrorMessage,
 }) {
-  const [visible, setVisible] = useState(false);
-
-  const showForm = { display: visible ? "" : "none" };
-  const hiddenButton = { display: visible ? "none" : "" };
+  const blogFormRef = useRef();
 
   const handleClick = () => {
     window.localStorage.clear();
     setUser(null);
-  };
-
-  const handleVisible = () => {
-    setVisible(true);
-  };
-
-  const handleHidden = () => {
-    setVisible(false);
   };
 
   const userBlogs = blogs.filter((blog) => blog.user.id === user.id);
@@ -37,20 +27,15 @@ export default function Blogs({
         <button onClick={handleClick}>logout</button>
       </div>
       <div style={{ marginTop: "30px" }}>
-        <button onClick={handleVisible} style={hiddenButton}>
-          new note
-        </button>
-
-        <div style={showForm}>
+        <Togglable buttonLabel="new blog" ref={blogFormRef}>
           <NewBlog
             user={user}
             blogs={blogs}
             setBlogs={setBlogs}
             setErrorMessage={setErrorMessage}
-            setVisible={setVisible}
+            blogFormRef={blogFormRef}
           />
-          <button onClick={handleHidden}>cancel</button>
-        </div>
+        </Togglable>
       </div>
       <div style={{ marginTop: "10px" }}>
         {userBlogs.length != 0 ? (
