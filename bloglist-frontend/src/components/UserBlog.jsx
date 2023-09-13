@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axiosClient from "../services/axiosClient";
 
-const UserBlog = ({ blog }) => {
+const UserBlog = ({ blog, setBlogs }) => {
   const [show, setShow] = useState(false);
 
   const blogStyle = {
@@ -11,6 +11,12 @@ const UserBlog = ({ blog }) => {
     border: "solid",
     borderWidth: 1,
     marginBottom: 5,
+  };
+
+  const removeButton = {
+    backgroundColor: "#3a7ef4",
+    borderRadius: "4px",
+    cursor: "pointer",
   };
 
   const handleClick = (e) => {
@@ -27,6 +33,22 @@ const UserBlog = ({ blog }) => {
       });
   };
 
+  const handleRemoveBlog = () => {
+    const confirmedDelete = window.confirm(
+      `Remove blog ${blog.title}! by ${blog.author}`
+    );
+
+    if (confirmedDelete) {
+      axiosClient
+        .remove(blog.id)
+        .then((returnedData) => {
+          setBlogs(returnedData);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
   return (
     <div>
       <div style={blogStyle}>
@@ -50,6 +72,9 @@ const UserBlog = ({ blog }) => {
               </button>
             </div>
             <p style={{ margin: "0px" }}>{blog.user.name}</p>
+            <button style={removeButton} onClick={handleRemoveBlog}>
+              remove
+            </button>
           </div>
         ) : (
           ""

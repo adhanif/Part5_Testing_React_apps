@@ -33,4 +33,12 @@ const update = (id, newObj) => {
   return request.then((response) => response.data);
 };
 
-export default { getAll, login, setToken, create, update };
+const remove = (id) => {
+  const config = {
+    headers: { authorization: token },
+  };
+  const request = axios.delete(`${baseUrl}/blogs/${id}`, config);
+  return request.then(() => getAll());
+};
+
+export default { getAll, login, setToken, create, update, remove };

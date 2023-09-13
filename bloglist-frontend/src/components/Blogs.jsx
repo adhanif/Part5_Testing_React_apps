@@ -44,8 +44,7 @@ export default function Blogs({
         {userBlogs.length != 0 ? (
           userBlogs.map((blog) => (
             <div key={blog.id}>
-              <UserBlog blog={blog} />
-              {/* {blog.title} {blog.author} */}
+              <UserBlog blog={blog} setBlogs={setBlogs} />
             </div>
           ))
         ) : (
