@@ -41,7 +41,7 @@ export default function Blogs({
         </Togglable>
       </div>
       <div style={{ marginTop: "10px" }}>
-        {userBlogs.length != 0 ? (
+        {userBlogs.length !== 0 ? (
           userBlogs.map((blog) => (
             <div key={blog.id}>
               <UserBlog blog={blog} setBlogs={setBlogs} />
