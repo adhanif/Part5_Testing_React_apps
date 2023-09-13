@@ -17,7 +17,9 @@ export default function Blogs({
     setUser(null);
   };
 
-  const userBlogs = blogs.filter((blog) => blog.user.id === user.id);
+  const userBlogs = blogs
+    .filter((blog) => blog.user.id === user.id)
+    .sort((a, b) => b.likes - a.likes);
 
   return (
     <div>
