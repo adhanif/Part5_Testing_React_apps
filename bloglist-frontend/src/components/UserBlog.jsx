@@ -3,7 +3,6 @@ import axiosClient from "../services/axiosClient";
 
 const UserBlog = ({ blog }) => {
   const [show, setShow] = useState(false);
-  // const [likes, setLikes] = useState(blog.likes);
 
   const blogStyle = {
     paddingTop: 10,
@@ -20,9 +19,6 @@ const UserBlog = ({ blog }) => {
 
   const handleLikes = () => {
     const totalLikes = Number(blog.likes) + 1;
-    // setLikes(totalLikes);
-    // console.log(totalLikes);
-    // console.log(blog);
     axiosClient
       .update(blog.id, { likes: totalLikes })
       .then(() => {})
@@ -31,7 +27,6 @@ const UserBlog = ({ blog }) => {
       });
   };
 
-  // console.log(blog.id);
   return (
     <div>
       <div style={blogStyle}>
