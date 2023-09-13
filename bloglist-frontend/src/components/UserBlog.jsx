@@ -25,9 +25,7 @@ const UserBlog = ({ blog }) => {
     // console.log(blog);
     axiosClient
       .update(blog.id, { likes: totalLikes })
-      .then((returnedData) => {
-        console.log("updated");
-      })
+      .then(() => {})
       .catch((err) => {
         console.log(err);
       });
