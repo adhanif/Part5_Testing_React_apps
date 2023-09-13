@@ -2,32 +2,42 @@ import React from "react";
 import { useState } from "react";
 import axiosClient from "../services/axiosClient";
 
-export default function NewBlog({ user, setErrorMessage, blogFormRef }) {
+export default function NewBlog({
+  user,
+  setErrorMessage,
+  blogFormRef,
+  blogs,
+  setBlogs,
+}) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
-  const handleCreate = async (e) => {
+  const handleCreate = (e) => {
     e.preventDefault();
-    try {
-      if (user) {
-        const blog = {
-          title: title,
-          author: author,
-          url: url,
-        };
-        await axiosClient.create(blog);
-        blogFormRef.current.handleVisiblity();
-        setErrorMessage(`${title}! by ${author} added`);
-        setTimeout(() => {
-          setErrorMessage(null);
-        }, 3000);
-        setTitle("");
-        setAuthor("");
-        setUrl("");
-      }
-    } catch (error) {
-      console.log(error);
+
+    if (user) {
+      const blog = {
+        title: title,
+        author: author,
+        url: url,
+      };
+      axiosClient
+        .create(blog)
+        .then((data) => {
+          setBlogs([...blogs, data]);
+          blogFormRef.current.handleVisiblity();
+          setErrorMessage(`${title}! by ${author} added`);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 3000);
+          setTitle("");
+          setAuthor("");
+          setUrl("");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 

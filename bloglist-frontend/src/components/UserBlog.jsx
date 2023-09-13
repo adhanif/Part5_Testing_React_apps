@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axiosClient from "../services/axiosClient";
 
 const UserBlog = ({ blog }) => {
   const [show, setShow] = useState(false);
@@ -16,6 +17,16 @@ const UserBlog = ({ blog }) => {
     setShow(!show);
   };
 
+  const handleLikes = () => {
+    const totalLikes = Number(blog.likes) + 1;
+    axiosClient
+      .update(blog.id, { likes: totalLikes })
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <div style={blogStyle}>
@@ -31,7 +42,12 @@ const UserBlog = ({ blog }) => {
             <p style={{ margin: "0px" }}>{blog.url}</p>
             <div style={{ display: "flex", margin: "0px" }}>
               <p style={{ margin: "0px" }}>likes {blog.likes}</p>
-              <button style={{ margin: "0px", padding: "0 5px" }}>like</button>
+              <button
+                style={{ margin: "0px", padding: "0 5px" }}
+                onClick={handleLikes}
+              >
+                like
+              </button>
             </div>
             <p style={{ margin: "0px" }}>{blog.user.name}</p>
           </div>
