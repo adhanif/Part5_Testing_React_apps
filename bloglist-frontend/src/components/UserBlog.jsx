@@ -52,7 +52,7 @@ const UserBlog = ({ blog, setBlogs }) => {
   return (
     <div>
       <div style={blogStyle}>
-        <div>
+        <div className="blog">
           {blog.title} {blog.author}
           {"  "}
           <button style={{ paddingLeft: "5px" }} onClick={handleClick}>
