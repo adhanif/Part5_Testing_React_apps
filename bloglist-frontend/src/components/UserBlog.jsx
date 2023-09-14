@@ -55,12 +55,16 @@ const UserBlog = ({ blog, setBlogs }) => {
         <div className="blog">
           {blog.title} {blog.author}
           {"  "}
-          <button style={{ paddingLeft: "5px" }} onClick={handleClick}>
+          <button
+            style={{ paddingLeft: "5px" }}
+            onClick={handleClick}
+            className="showDetail"
+          >
             {show ? "hide" : "show"}
           </button>
         </div>
-        {show ? (
-          <div>
+        {show && (
+          <div className="blog-details">
             <p style={{ margin: "0px" }}>{blog.url}</p>
             <div style={{ display: "flex", margin: "0px" }}>
               <p style={{ margin: "0px" }}>likes {blog.likes}</p>
@@ -71,13 +75,11 @@ const UserBlog = ({ blog, setBlogs }) => {
                 like
               </button>
             </div>
-            <p style={{ margin: "0px" }}>{blog.user.name}</p>
+            <p style={{ margin: "0px" }}>{blog.user?.name}</p>
             <button style={removeButton} onClick={handleRemoveBlog}>
               remove
             </button>
           </div>
-        ) : (
-          ""
         )}
       </div>
     </div>
