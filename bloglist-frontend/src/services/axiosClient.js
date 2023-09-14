@@ -1,5 +1,6 @@
 import axios from "axios";
-const baseUrl = (import.meta.env.VITE_BE_URL || "") + "/api";
+// const baseUrl = (import.meta.env.VITE_BE_URL || "") + "/api";
+const baseUrl = "http://localhost:3003/api";
 
 let token = null;
 const setToken = (newToken) => {
