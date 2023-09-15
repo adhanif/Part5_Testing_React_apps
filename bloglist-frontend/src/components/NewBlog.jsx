@@ -2,43 +2,40 @@ import React from "react";
 import { useState } from "react";
 import axiosClient from "../services/axiosClient";
 
-export default function NewBlog({
-  user,
-  setErrorMessage,
-  blogFormRef,
-  blogs,
-  setBlogs,
-}) {
+export default function NewBlog({ addBlog }) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
   const handleCreate = (e) => {
     e.preventDefault();
-
-    if (user) {
-      const blog = {
-        title: title,
-        author: author,
-        url: url,
-      };
-      axiosClient
-        .create(blog)
-        .then((data) => {
-          setBlogs([...blogs, data]);
-          blogFormRef.current.handleVisiblity();
-          setErrorMessage(`${title}! by ${author} added`);
-          setTimeout(() => {
-            setErrorMessage(null);
-          }, 3000);
-          setTitle("");
-          setAuthor("");
-          setUrl("");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    addBlog({ title: title, author: author, url: url });
+    setTitle("");
+    setAuthor("");
+    setUrl("");
+    // if (user) {
+    //   const blog = {
+    //     title: title,
+    //     author: author,
+    //     url: url,
+    //   };
+    //   axiosClient
+    //     .create(blog)
+    //     .then((data) => {
+    //       setBlogs([...blogs, data]);
+    //       blogFormRef.current.handleVisiblity();
+    //       setErrorMessage(`${title}! by ${author} added`);
+    //       setTimeout(() => {
+    //         setErrorMessage(null);
+    //       }, 3000);
+    //       setTitle("");
+    //       setAuthor("");
+    //       setUrl("");
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }
   };
 
   return (
@@ -49,6 +46,7 @@ export default function NewBlog({
           <div>
             title
             <input
+              id="title"
               type="text"
               name="title"
               value={title}
@@ -58,6 +56,7 @@ export default function NewBlog({
           <div>
             author:
             <input
+              id="author"
               type="text"
               name="author"
               value={author}
@@ -68,6 +67,7 @@ export default function NewBlog({
           <div>
             url:
             <input
+              id="url"
               type="text"
               name="url"
               value={url}
