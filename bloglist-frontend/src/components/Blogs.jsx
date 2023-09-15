@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import NewBlog from "../components/NewBlog";
 import Togglable from "./Togglable";
 import UserBlog from "./UserBlog";
+import axiosClient from "../services/axiosClient";
 
 export default function Blogs({
   blogs,
@@ -21,6 +22,25 @@ export default function Blogs({
     .filter((blog) => blog.user.id === user.id)
     .sort((a, b) => b.likes - a.likes);
 
+  const addBlog = (newBlogObj) => {
+    if (user) {
+      blogFormRef.current.handleVisiblity();
+      axiosClient
+        .create(newBlogObj)
+        .then((data) => {
+          setBlogs([...blogs, data]);
+
+          setErrorMessage(`${newBlogObj.title}! by ${newBlogObj.author} added`);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   return (
     <div>
       {" "}
@@ -37,6 +57,7 @@ export default function Blogs({
             setBlogs={setBlogs}
             setErrorMessage={setErrorMessage}
             blogFormRef={blogFormRef}
+            addBlog={addBlog}
           />
         </Togglable>
       </div>
