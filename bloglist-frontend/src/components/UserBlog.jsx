@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axiosClient from "../services/axiosClient";
 
-const UserBlog = ({ blog, setBlogs }) => {
+const UserBlog = ({ blog, setBlogs, addLike }) => {
   const [show, setShow] = useState(false);
 
   const blogStyle = {
@@ -25,12 +25,7 @@ const UserBlog = ({ blog, setBlogs }) => {
 
   const handleLikes = () => {
     const totalLikes = Number(blog.likes) + 1;
-    axiosClient
-      .update(blog.id, { likes: totalLikes })
-      .then(() => {})
-      .catch((err) => {
-        console.log(err);
-      });
+    addLike(blog.id, { likes: totalLikes });
   };
 
   const handleRemoveBlog = () => {
@@ -67,10 +62,13 @@ const UserBlog = ({ blog, setBlogs }) => {
           <div className="blog-details">
             <p style={{ margin: "0px" }}>{blog.url}</p>
             <div style={{ display: "flex", margin: "0px" }}>
-              <p style={{ margin: "0px" }}>likes {blog.likes}</p>
+              <p style={{ margin: "0px" }} id="likesCheck">
+                likes {blog.likes}
+              </p>
               <button
                 style={{ margin: "0px", padding: "0 5px" }}
                 onClick={handleLikes}
+                className="likeButton"
               >
                 like
               </button>
