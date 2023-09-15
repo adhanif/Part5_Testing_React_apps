@@ -41,6 +41,15 @@ export default function Blogs({
     }
   };
 
+  const addLike = (id, likeObj) => {
+    axiosClient
+      .update(id, likeObj)
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       {" "}
@@ -65,7 +74,7 @@ export default function Blogs({
         {userBlogs.length !== 0 ? (
           userBlogs.map((blog) => (
             <div key={blog.id}>
-              <UserBlog blog={blog} setBlogs={setBlogs} />
+              <UserBlog blog={blog} setBlogs={setBlogs} addLike={addLike} />
             </div>
           ))
         ) : (
