@@ -40,7 +40,7 @@ function App() {
     axiosClient.getAll().then((blogs) => {
       setBlogs(blogs);
     });
-  }, [blogs]);
+  }, []);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogUser");

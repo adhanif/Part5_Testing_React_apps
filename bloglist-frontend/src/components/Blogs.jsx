@@ -40,11 +40,16 @@ export default function Blogs({
         });
     }
   };
-
   const addLike = (id, likeObj) => {
     axiosClient
       .update(id, likeObj)
-      .then(() => {})
+      .then((returnedBlog) => {
+        setBlogs((prevBlogs) =>
+          prevBlogs.map((blog) =>
+            blog.id === id ? { ...blog, likes: returnedBlog.likes } : blog
+          )
+        );
+      })
       .catch((err) => {
         console.log(err);
       });
