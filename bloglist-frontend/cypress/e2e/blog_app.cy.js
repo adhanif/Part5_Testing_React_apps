@@ -39,16 +39,32 @@ describe("Blog app", function () {
       cy.login({ username: "mluukkai", password: "salainen" });
     });
     it("A new blog can be created", function () {
-      cy.wait(2000);
       cy.get("html").should("contain", "mluukkai is logged in");
 
       cy.createBlog({
         title: "CYPRES",
         author: "CYPRES",
-        likes: "100",
+        likes: "10",
         url: "CYPRES",
       });
       cy.get("html").should("contain", "CYPRES CYPRES");
+      cy.contains("show").click();
+      cy.contains("like").click();
+    });
+
+    it("A blog can be liked", function () {
+      cy.get("html").should("contain", "mluukkai is logged in");
+
+      cy.createBlog({
+        title: "CYPRES2",
+        author: "CYPRES2",
+        likes: "100",
+        url: "CYPRES",
+      });
+
+      cy.contains("show").click();
+      cy.get(".likeButton").click();
+      cy.get("html").should("contain", "likes 101");
     });
   });
 });
