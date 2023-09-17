@@ -60,7 +60,9 @@ export default function Blogs({
       {" "}
       <h2>blogs</h2>
       <div style={{ display: "flex" }}>
-        <p style={{ margin: "0px" }}>{user.name} is logged in</p>
+        <p style={{ margin: "0px" }} className="userName">
+          {user.name} is logged in
+        </p>
         <button onClick={handleClick}>logout</button>
       </div>
       <div style={{ marginTop: "30px" }}>
