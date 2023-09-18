@@ -38,6 +38,7 @@ describe("Blog app", function () {
     beforeEach(function () {
       cy.login({ username: "mluukkai", password: "salainen" });
     });
+
     it("A new blog can be created", function () {
       cy.get("html").should("contain", "mluukkai is logged in");
 
@@ -56,15 +57,44 @@ describe("Blog app", function () {
       cy.get("html").should("contain", "mluukkai is logged in");
 
       cy.createBlog({
+        title: "CYPRES1",
+        author: "CYPRES1",
+        likes: "100",
+        url: "CYPRES",
+      });
+      cy.createBlog({
         title: "CYPRES2",
         author: "CYPRES2",
         likes: "100",
         url: "CYPRES",
       });
-
-      cy.contains("show").click();
-      cy.get(".likeButton").click();
+      cy.contains("CYPRES1 CYPRES1").parent().find("button").as("theButton");
+      cy.get("@theButton").click();
+      cy.contains("likes 100").parent().find("button").contains("like").click();
       cy.get("html").should("contain", "likes 101");
+    });
+  });
+
+  describe("Registered user", function () {
+    beforeEach(function () {
+      cy.login({ username: "mluukkai", password: "salainen" });
+      cy.get("html").should("contain", "mluukkai is logged in");
+      cy.createBlog({
+        title: "Delete CYPRES",
+        author: "by CYPRE",
+        likes: "100",
+        url: "CYPRES",
+      });
+    });
+
+    it("a blog can be deleted by its creater", function () {
+      cy.contains("Delete CYPRES by CYPRE")
+        .parent()
+        .find("button")
+        .contains("show")
+        .click();
+      cy.contains("remove").click();
+      cy.get("html").should("not.contain", "show");
     });
   });
 });
