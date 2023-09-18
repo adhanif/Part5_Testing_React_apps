@@ -26,7 +26,6 @@ describe("Blog app", function () {
       cy.login({ username: "mluukkai", password: "salainen" });
       cy.contains("mluukkai is logged in");
     });
-
     it("fails with wrong credentials", function () {
       cy.contains("login").click();
       cy.get("#username").type("mluukkai2");
@@ -91,15 +90,19 @@ describe("Blog app", function () {
         likes: "100",
         url: "CYPRES",
       });
-
       cy.createBlog({
         title: "blog2",
-        author: "by blogger",
-        likes: "100",
+        author: "by blogger2",
+        likes: "101",
+        url: "CYPRES",
+      });
+      cy.createBlog({
+        title: "blog3",
+        author: "by blogger3",
+        likes: "102",
         url: "CYPRES",
       });
     });
-
     it("a blog can be deleted by its creater", function () {
       cy.contains("CYPRES by CYPRE")
         .parent()
@@ -109,11 +112,48 @@ describe("Blog app", function () {
       cy.contains("remove").click();
       cy.get("html").should("not.contain", "CYPRES by CYPRE");
     });
-
     it("the creator can see the delete button of a blog, not anyone else", function () {
       cy.contains("logout").click();
       cy.login({ username: "user2", password: "password" });
       cy.get("html").should("not.contain", "blog2 by blogger ");
+    });
+  });
+
+  describe("Registered user", function () {
+    it("the blogs are ordered according to likes with the blog with the most likes being first", function () {
+      cy.login({ username: "mluukkai", password: "salainen" });
+      cy.get("html").should("contain", "mluukkai is logged in");
+      cy.createBlog({
+        title: "CYPRES",
+        author: "by CYPRE",
+        likes: "100",
+        url: "CYPRES",
+      });
+      cy.createBlog({
+        title: "The title with the most likes",
+        author: "by blogger3",
+        likes: "102",
+        url: "CYPRES",
+      });
+
+      cy.createBlog({
+        title: "The title with the second most likes",
+        author: "by blogger2",
+        likes: "101",
+        url: "CYPRES",
+      });
+
+      cy.contains("The title with the most likes by blogger3")
+        .parent()
+        .find("button")
+        .as("theButton");
+
+      cy.get("@theButton").click();
+      cy.contains("likes 102").parent().find("button").contains("like").click();
+      cy.get(".blogs").eq(0).should("contain", "The title with the most likes");
+      cy.get(".blog")
+        .eq(1)
+        .should("contain", "The title with the second most likes");
     });
   });
 });
