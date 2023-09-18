@@ -7,6 +7,12 @@ describe("Blog app", function () {
       password: "salainen",
     };
     cy.request("POST", `${Cypress.env("BACKEND")}/users`, user);
+    const user2 = {
+      name: "user2",
+      username: "user2",
+      password: "password",
+    };
+    cy.request("POST", `${Cypress.env("BACKEND")}/users`, user2);
     cy.visit("");
   });
 
@@ -80,21 +86,34 @@ describe("Blog app", function () {
       cy.login({ username: "mluukkai", password: "salainen" });
       cy.get("html").should("contain", "mluukkai is logged in");
       cy.createBlog({
-        title: "Delete CYPRES",
+        title: "CYPRES",
         author: "by CYPRE",
+        likes: "100",
+        url: "CYPRES",
+      });
+
+      cy.createBlog({
+        title: "blog2",
+        author: "by blogger",
         likes: "100",
         url: "CYPRES",
       });
     });
 
     it("a blog can be deleted by its creater", function () {
-      cy.contains("Delete CYPRES by CYPRE")
+      cy.contains("CYPRES by CYPRE")
         .parent()
         .find("button")
         .contains("show")
         .click();
       cy.contains("remove").click();
-      cy.get("html").should("not.contain", "show");
+      cy.get("html").should("not.contain", "CYPRES by CYPRE");
+    });
+
+    it("the creator can see the delete button of a blog, not anyone else", function () {
+      cy.contains("logout").click();
+      cy.login({ username: "user2", password: "password" });
+      cy.get("html").should("not.contain", "blog2 by blogger ");
     });
   });
 });
